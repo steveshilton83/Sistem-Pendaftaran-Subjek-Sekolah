@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>e-Agihan SMKTego | Sistem Pendaftaran Subjek PdP Guru</title>
+  
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d285b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="e-Agihan">
+  <meta name="application-name" content="e-Agihan SMKTego">
+  <meta name="msapplication-TileColor" content="#0d285b">
+  <meta name="msapplication-TileImage" content="assets/icon-192.png">
+
+  <!-- Icons for iOS & Android -->
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="assets/icon-512.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
+
+  <!-- Open Graph Meta Tags (Pratonton WhatsApp / Telegram) -->
+  <meta property="og:title" content="e-Agihan SMKTego 2026">
+  <meta property="og:description" content="Sistem Pendaftaran & Pengutipan Agihan Subjek PdP Guru SMK Tenghilan (Pra-Jadual Waktu)">
+  <meta property="og:image" content="assets/icon-512.png">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- PWA Install Banner (Mobile) -->
+    <div id="pwaInstallBanner" class="pwa-sticky-banner" style="display: none;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.4rem;">📱</span>
+        <div>
+          <strong style="color: #facc15; font-size: 0.88rem;">Pasang Aplikasi e-Agihan SMKTego</strong>
+          <p style="font-size: 0.75rem; color: #cbd5e1;">Akses pantas terus dari skrin utama telefon anda!</p>
+        </div>
+      </div>
+      <button class="btn-install-pwa" onclick="promptInstallPWA()">Pasang Sekarang</button>
+    </div>
+
+    <!-- App Header (Glassmorphic) -->
+    <header class="app-header glass-panel">
+      <div class="brand-section">
+        <img src="assets/logo.png" alt="Logo SMK Tenghilan" class="school-logo-img">
+        <div class="header-text">
+          <div class="school-title">SMK TENGHILAN, TUARAN, SABAH</div>
+          <h1>e-Agihan SMKTego 2026</h1>
+          <p class="subtitle">Sistem Pendaftaran & Pengutipan Agihan Subjek PdP Guru (Pra-Jadual Waktu)</p>
+        </div>
+      </div>
+
+      <div class="header-badges">
+        <button class="btn-install-pwa" onclick="promptInstallPWA()">
+          <span>📱</span> Pasang App Telefon
+        </button>
+      </div>
+    </header>
+
+    <!-- Bar Navigasi Tab -->
+    <nav class="nav-tab-bar">
+      <button class="nav-tab-btn active" data-tab="register">
+        <span>📝</span> Daftar Subjek
+      </button>
+      <button class="nav-tab-btn" data-tab="my-subjects">
+        <span>📋</span> Pendaftaran Saya
+      </button>
+      <button class="nav-tab-btn" data-tab="subjects">
+        <span>📚</span> Urus Subjek
+      </button>
+      <button class="nav-tab-btn" data-tab="dashboard">
+        <span>📊</span> Papan Pemuka Penyelaras
+      </button>
+      <button class="nav-tab-btn" data-tab="reports">
+        <span>📄</span> Rumusan & Fail PDF
+      </button>
+      <button class="nav-tab-btn" data-tab="settings">
+        <span>⚙️</span> Pelayan & QR Kod
+      </button>
+    </nav>
+
+    <!-- Kad Status Beban Mengajar Guru Terpilih -->
+    <div id="teacherWorkloadBadge">
+      <!-- Diisi secara automatik melalui app.js -->
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: BORANG PENDAFTARAN SUBJEK GURU       -->
+    <!-- ========================================== -->
+    <section id="tab-register" class="tab-pane active">
+      <div class="glass-panel" style="padding: 22px;">
+        
+        <div style="margin-bottom: 18px; border-bottom: 1px solid rgba(250, 204, 21, 0.2); padding-bottom: 12px;">
+          <h2 style="font-size: 1.25rem; color: #facc15; display: flex; align-items: center; gap: 8px;">
+            <span>✍️</span> Borang Pendaftaran Mata Pelajaran Mengikut Bidang
+          </h2>
+          <p style="font-size: 0.82rem; color: #94a3b8;">
+            Sila lengkapkan pilihan nama guru, bidang, subjek, kelas, serta jam kredit & kombinasi masa yang diperlukan.
+          </p>
+        </div>
+
+        <form id="registrationForm">
+          
+          <div class="form-grid">
+            
+            <!-- 1. PILIH NAMA GURU -->
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label class="form-label" for="teacherSelect" style="margin-bottom: 0;">
+                  <span>👤 1. Nama Guru:</span>
+                  <span id="teacherCountBadge" style="font-size: 0.75rem; color: #93c5fd; font-weight: normal;">(92 Guru SMK Tenghilan)</span>
+                </label>
+                <button type="button" class="btn-sub-quick-action" onclick="openAddTeacherModal()" title="Daftar Nama Guru Baharu ke dalam Sistem">
+                  ➕ Tambah Guru Baru
+                </button>
+              </div>
+              
+              <!-- Quick search box -->
+              <input type="text" id="teacherSearchInput" class="form-control" placeholder="🔍 Taip untuk cari nama guru anda..." style="margin-bottom: 6px; font-size: 0.85rem; padding: 8px 12px;">
+              
+              <select id="teacherSelect" class="form-control" required>
+                <option value="">-- Sila Pilih Nama Anda --</option>
+              </select>
+            </div>
+
+            <!-- 2. PILIH BIDANG -->
+            <div class="form-group">
+              <label class="form-label" for="deptSelect">
+                <span>🏛️ 2. Bidang Matapelajaran:</span>
+              </label>
+              <select id="deptSelect" class="form-control" required>
+                <option value="">-- Sila Pilih Bidang --</option>
+              </select>
+            </div>
+
+            <!-- 3. PILIH SUBJEK -->
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                <label class="form-label" for="subjectSelect" style="margin-bottom: 0;">
+                  <span>📚 3. Mata Pelajaran Yang Diajar:</span>
+                </label>
+                <div style="display: flex; gap: 6px;">
+                  <button type="button" class="btn-sub-quick-action" onclick="openAddSubjectModal()" title="Tambah Subjek Baharu ke Dalam Bidang">
+                    ➕ Tambah
+                  </button>
+                  <button type="button" id="btnEditSelectedSubject" class="btn-sub-quick-action btn-sub-edit" onclick="openEditSelectedSubjectModal()" title="Edit Nama / Kod Subjek Terpilih" style="display: none;">
+                    ✏️ Edit
+                  </button>
+                </div>
+              </div>
+              <select id="subjectSelect" class="form-control" disabled required>
+                <option value="">-- Sila Pilih Bidang Dahulu --</option>
+              </select>
+            </div>
+
+            <!-- 4. PILIH KELAS -->
+            <div class="form-group">
+              <label class="form-label" for="classSelect">
+                <span>🏫 4. Kelas Yang Diajar:</span>
+                <span style="font-size: 0.72rem; color: #93c5fd; font-weight: normal;">(30 Kelas KSSM)</span>
+              </label>
+              <select id="classSelect" class="form-control" required>
+                <option value="">-- Sila Pilih Kelas --</option>
+              </select>
+            </div>
+
+            <!-- 5. JAM KREDIT (BILANGAN WAKTU) -->
+            <div class="form-group">
+              <label class="form-label" for="hoursSelect">
+                <span>⏱️ 5. Jam Kredit (Bilangan Waktu Seminggu):</span>
+              </label>
+              <select id="hoursSelect" class="form-control" required>
+                <!-- Generated by JS -->
+              </select>
+            </div>
+
+            <!-- 6. KOMBINASI MASA -->
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label" for="comboSelect">
+                <span>🧩 6. Kombinasi Masa Yang Diperlukan:</span>
+                <span style="font-size: 0.72rem; color: #94a3b8; font-weight: normal;">(cth: 3+2 untuk 5 waktu, 2+2 untuk 4 waktu)</span>
+              </label>
+              <select id="comboSelect" class="form-control" required>
+                <!-- Generated by JS -->
+              </select>
+            </div>
+
+          </div>
+
+          <!-- AMARAN PERTINDIHAN MERAH TERANG (REQUIRED USER WARNING) -->
+          <div id="conflictWarningBox" style="display: none;">
+            <!-- Akan dipaparkan dengan teks merah terang yang jelas jika berlaku pertindihan -->
+          </div>
+
+          <!-- LENCANA SLOT TERSEDIA (HIJAU) -->
+          <div id="slotAvailableBadge" class="slot-available-badge" style="display: none;">
+            <!-- Dipaparkan jika kelas dan subjek masih kosong -->
+          </div>
+
+          <!-- BUTANG SIMPAN / DAFTAR -->
+          <button type="submit" id="btnSubmitRegistration" class="btn-submit-main">
+            <span>💾 Daftar Subjek Ini</span>
+          </button>
+
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: SENARAI PENDAFTARAN SAYA            -->
+    <!-- ========================================== -->
+    <section id="tab-my-subjects" class="tab-pane">
+      <div class="glass-panel" style="padding: 22px;">
+        <div id="mySubjectsContainer">
+          <!-- Diisi secara dinamik -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB: PENGURUSAN MATA PELAJARAN (URUS SUBJEK)-->
+    <!-- ========================================== -->
+    <section id="tab-subjects" class="tab-pane">
+      <div class="glass-panel" style="padding: 22px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; border-bottom: 1px solid rgba(250, 204, 21, 0.2); padding-bottom: 14px;">
+          <div>
+            <h2 style="font-size: 1.25rem; color: #facc15; display: flex; align-items: center; gap: 8px;">
+              <span>📚</span> Pengurusan Mata Pelajaran Mengikut Bidang
+            </h2>
+            <p style="font-size: 0.82rem; color: #94a3b8;">
+              Tambah subjek baharu, tentukan bidang yang bersesuaian, atau kemaskini nama/kod subjek terkini.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button type="button" class="btn-submit-main" style="padding: 9px 16px; font-size: 0.88rem; width: auto;" onclick="openAddSubjectModal()">
+              <span>➕ Tambah Subjek Baharu</span>
+            </button>
+            <button type="button" class="btn-action-slip" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); font-size: 0.82rem;" onclick="handleResetDefaultSubjects()">
+              <span>🔄 Reset Subjek Piawai</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Penapis Carian & Bidang -->
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px;">
+          <input type="text" id="subjectSearchInput" class="form-control" placeholder="🔍 Cari nama atau kod subjek..." style="flex: 2; min-width: 200px;">
+          <select id="subjectDeptFilterSelect" class="form-control" style="flex: 1; min-width: 180px;">
+            <option value="ALL">Semua Bidang</option>
+            <option value="SAINS_MATEMATIK">🔬 Sains & Matematik</option>
+            <option value="KEMANUSIAAN">🌍 Kemanusiaan</option>
+            <option value="TVET">⚙️ TVET</option>
+            <option value="BAHASA">📖 Bahasa</option>
+          </select>
+        </div>
+
+        <!-- Grid Kad Subjek Mengikut Bidang -->
+        <div id="subjectsManagerGrid" class="subjects-manager-grid">
+          <!-- Diisi secara dinamik oleh renderSubjectsManager() -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: PAPAN PEMUKA PENYELARAS & GKMP      -->
+    <!-- ========================================== -->
+    <section id="tab-dashboard" class="tab-pane">
+      <div class="glass-panel" style="padding: 22px;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+          <div>
+            <h2 style="font-size: 1.25rem; color: #facc15;">📊 Papan Pemuka Penyelaras Jadual Waktu & GKMP</h2>
+            <p style="font-size: 0.82rem; color: #94a3b8;">
+              Pantau agihan tugas guru seluruh sekolah, semak beban waktu mingguan, dan semak matriks 30 kelas.
+            </p>
+          </div>
+          <div>
+            <button type="button" class="btn-sub-quick-action" onclick="openAddTeacherModal()" style="padding: 7px 14px; font-size: 0.82rem;">
+              ➕ Tambah Guru Baru
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div id="kpiTotalTeachers" class="kpi-num">0 / 92</div>
+            <div class="kpi-title">Guru Telah Mendaftar</div>
+          </div>
+          <div class="kpi-card">
+            <div id="kpiTotalSlots" class="kpi-num">0</div>
+            <div class="kpi-title">Jumlah Agihan Kelas</div>
+          </div>
+          <div class="kpi-card">
+            <div id="kpiTotalPeriods" class="kpi-num">0</div>
+            <div class="kpi-title">Jumlah Waktu Terkumpul</div>
+          </div>
+          <div class="kpi-card">
+            <div id="kpiAvgPeriods" class="kpi-num">0 Waktu</div>
+            <div class="kpi-title">Purata Waktu / Guru</div>
+          </div>
+        </div>
+
+        <!-- Penapis Carian -->
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">
+          <input type="text" id="dashboardSearch" class="form-control" placeholder="🔍 Cari guru, subjek atau kelas..." style="flex: 2; min-width: 220px;">
+          <select id="filterDeptSelect" class="form-control" style="flex: 1; min-width: 180px;">
+            <option value="ALL">Semua Bidang</option>
+            <option value="SAINS_MATEMATIK">Sains & Matematik</option>
+            <option value="KEMANUSIAAN">Kemanusiaan</option>
+            <option value="TVET">TVET</option>
+            <option value="BAHASA">Bahasa</option>
+          </select>
+        </div>
+
+        <!-- Matriks 30 Kelas (Heatmap / Interactive Table) -->
+        <div style="margin-top: 24px; margin-bottom: 12px;">
+          <h3 style="font-size: 1rem; color: #facc15; margin-bottom: 8px;">🏫 Matriks Agihan Tugas 30 Kelas KSSM</h3>
+          <div id="matrixViewContainer">
+            <!-- Table Matrix -->
+          </div>
+        </div>
+
+        <!-- Jadual Penuh Pendaftaran -->
+        <div style="margin-top: 24px;">
+          <h3 style="font-size: 1rem; color: #facc15; margin-bottom: 8px;">📋 Senarai Rekod Pendaftaran Terkini</h3>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 40px; text-align: center;">Bil</th>
+                  <th>Nama Guru</th>
+                  <th>Bidang</th>
+                  <th>Mata Pelajaran</th>
+                  <th style="text-align: center;">Kelas</th>
+                  <th style="text-align: center;">Waktu</th>
+                  <th style="text-align: center;">Kombinasi</th>
+                  <th style="text-align: center; width: 60px;">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardTableBody">
+                <!-- Diisi oleh app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: RUMUSAN & MUAT TURUN PDF RASMI      -->
+    <!-- ========================================== -->
+    <section id="tab-reports" class="tab-pane">
+      <div class="glass-panel" style="padding: 22px;">
+        
+        <div style="margin-bottom: 20px;">
+          <h2 style="font-size: 1.25rem; color: #facc15;">📄 Muat Turun Rumusan Fail PDF Rasmi Sekolah</h2>
+          <p style="font-size: 0.82rem; color: #94a3b8;">
+            Jana dokumen PDF rasmi SMK Tenghilan lengkap dengan logo sekolah, statistik beban waktu, dan ruangan tandatangan pengesahan.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 24px;">
+          
+          <!-- Laporan 1: Rumusan Penuh Semua Guru -->
+          <div class="glass-panel" style="background: rgba(10, 26, 61, 0.85); padding: 18px;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">📑</div>
+            <h3 style="font-size: 1.05rem; color: #ffffff; margin-bottom: 6px;">Rumusan Penuh Agihan Guru</h3>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 14px;">
+              Dokumen A4 Landscape mengandungi senarai semua 92 guru, subjek dan kelas yang diajar, jam kredit, dan jumlah waktu mingguan.
+            </p>
+            <button id="btnPdfFull" class="btn-submit-main" style="padding: 10px; font-size: 0.9rem;">
+              📥 Muat Turun PDF (Rumusan Penuh)
+            </button>
+          </div>
+
+          <!-- Laporan 2: Matriks 30 Kelas -->
+          <div class="glass-panel" style="background: rgba(10, 26, 61, 0.85); padding: 18px;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🏫</div>
+            <h3 style="font-size: 1.05rem; color: #ffffff; margin-bottom: 6px;">Matriks Agihan 30 Kelas</h3>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 14px;">
+              Jadual matriks lengkap bagi 30 kelas KSSM (1 UM hingga 5 UMS) menunjukkan guru yang mengajar setiap subjek.
+            </p>
+            <button id="btnPdfMatrix" class="btn-submit-main" style="padding: 10px; font-size: 0.9rem;">
+              📥 Muat Turun PDF (Matriks Kelas)
+            </button>
+          </div>
+
+          <!-- Laporan 3: Mengikut Bidang untuk GKMP -->
+          <div class="glass-panel" style="background: rgba(10, 26, 61, 0.85); padding: 18px;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">🏛️</div>
+            <h3 style="font-size: 1.05rem; color: #ffffff; margin-bottom: 6px;">Laporan Mengikut Bidang (GKMP)</h3>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
+              Laporan khusus mengikut 4 Bidang untuk semakan dan simpanan fail pengurusan Guru Kanan Matapelajaran.
+            </p>
+            <select id="reportDeptSelect" class="form-control" style="margin-bottom: 12px; font-size: 0.85rem;">
+              <option value="ALL">Semua 4 Bidang Sekaligus</option>
+              <option value="SAINS_MATEMATIK">Bidang Sains & Matematik</option>
+              <option value="KEMANUSIAAN">Bidang Kemanusiaan</option>
+              <option value="TVET">Bidang TVET</option>
+              <option value="BAHASA">Bidang Bahasa</option>
+            </select>
+            <button id="btnPdfDept" class="btn-submit-main" style="padding: 10px; font-size: 0.9rem;">
+              📥 Muat Turun PDF (Laporan Bidang)
+            </button>
+          </div>
+
+          <!-- Laporan 4: Slip Guru Terpilih -->
+          <div class="glass-panel" style="background: rgba(10, 26, 61, 0.85); padding: 18px;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">👨‍🏫</div>
+            <h3 style="font-size: 1.05rem; color: #ffffff; margin-bottom: 6px;">Slip Pendaftaran Guru Individu</h3>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 14px;">
+              Cetak atau muat turun slip pengesahan bagi guru yang sedang dipilih di ruangan atas.
+            </p>
+            <button id="btnPdfSlip" class="btn-submit-main" style="padding: 10px; font-size: 0.9rem;">
+              📥 Muat Turun Slip Guru (PDF)
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Integrasi Software Jadual Waktu -->
+        <div style="border-top: 1px solid rgba(250, 204, 21, 0.2); padding-top: 20px;">
+          <h3 style="font-size: 1.05rem; color: #facc15; margin-bottom: 8px;">🔄 Pindahan Data ke Software Jadual Waktu (aSc Timetables)</h3>
+          <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 14px;">
+            Penyelaras jadual waktu boleh mengeksport data agihan subjek ini terus ke dalam fail CSV bersesuaian format aSc Timetables atau format e-Jadual SMKTego.
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button id="btnExportAsc" class="btn-action-slip" style="padding: 10px 16px;">
+              📤 Eksport Fail CSV (aSc Timetables)
+            </button>
+            <button id="btnExportJson" class="btn-action-slip" style="background: #0284c7; border-color: #38bdf8; padding: 10px 16px;">
+              💾 Eksport Fail Sandaran JSON (e-Jadual SMKTego)
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: SAMBUNGAN, PELAYAN & PWA            -->
+    <!-- ========================================== -->
+    <section id="tab-settings" class="tab-pane">
+      <div class="glass-panel" style="padding: 22px;">
+        
+        <div style="margin-bottom: 20px;">
+          <h2 style="font-size: 1.25rem; color: #facc15;">⚙️ Konfigurasi Rangkaian, QR Kod & PWA</h2>
+          <p style="font-size: 0.82rem; color: #94a3b8;">
+            Tetapkan mod penyelarasan data supaya semua telefon bimbit guru dapat berhubung dan mendaftar serentak.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          
+          <!-- Pelayan Wi-Fi Sekolah & Kod QR -->
+          <div class="glass-panel" style="background: rgba(10, 26, 61, 0.85); padding: 18px;">
+            <h3 style="color: #facc15; font-size: 1rem; margin-bottom: 8px;">📶 Pelayan Wi-Fi Tempatan Sekolah</h3>
+            <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 12px;">
+              Jika penyelaras menjalankan fail <code>JALANKAN_SISTEM.bat</code> di komputer riba, guru-guru boleh mengimbas kod QR ini untuk terus membuka aplikasi pada telefon masing-masing di bawah rangkaian Wi-Fi yang sama:
+            </p>
+            <div id="qrCodeContainer" style="background: #ffffff; padding: 14px; border-radius: 12px; width: fit-content; margin: 0 auto 12px auto;">
+              <!-- QR Code Canvas -->
+            </div>
+            <div style="text-align: center; font-size: 0.85rem; color: #facc15; font-weight: bold;" id="serverUrlText">
+              <!-- Server URL text -->
+            </div>
+          </div>
+
+          <!-- Storan Awan (Cloud Sync Firebase) -->
+          <div class="glass-panel" style="background: rgba(10, 26, 61, 0.85); padding: 18px;">
+            <h3 style="color: #facc15; font-size: 1rem; margin-bottom: 8px;">☁️ Penyelarasan Awan (Cloud Sync)</h3>
+            <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 12px;">
+              Bagi membolehkan guru mendaftar dari rumah atau menggunakan data mudah alih (4G/5G), masukkan pautan pangkalan data Firebase Realtime Database percuma anda:
+            </p>
+            <form id="cloudSyncForm">
+              <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="cloudSyncToggle" style="width: 18px; height: 18px;">
+                <label for="cloudSyncToggle" style="font-size: 0.88rem; font-weight: 600;">Aktifkan Penyelarasan Cloud</label>
+              </div>
+              <input type="url" id="cloudFirebaseUrl" class="form-control" placeholder="https://projek-anda-default-rtdb.firebaseio.com" style="margin-bottom: 10px; font-size: 0.82rem;">
+              <button type="submit" class="btn-action-slip" style="width: 100%;">Simpan Konfigurasi Awan</button>
+            </form>
+          </div>
+
+          <!-- Import / Pulih Sandaran -->
+          <div class="glass-panel" style="background: rgba(10, 26, 61, 0.85); padding: 18px;">
+            <h3 style="color: #facc15; font-size: 1rem; margin-bottom: 8px;">📦 Sandaran & Pemulihan Fail JSON</h3>
+            <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 12px;">
+              Penyelaras boleh memuat naik fail sandaran JSON pendaftaran guru untuk memulihkan atau menyatukan rekod.
+            </p>
+            <input type="file" id="importFileInput" accept=".json" class="form-control" style="margin-bottom: 10px; font-size: 0.8rem;">
+            <button class="btn-delete-reg" style="background: rgba(220, 38, 38, 0.3); border-color: #ef4444;" onclick="if(confirm('AMARAN: Adakah anda pasti ingin mengosongkan SEMUA pendaftaran?')) syncManager.clearAllRegistrations();">
+              ⚠️ Kosongkan Semua Data Pendaftaran
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: TAMBAH / EDIT MATA PELAJARAN        -->
+  <!-- ========================================== -->
+  <div id="subjectModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3 id="subjectModalTitle">➕ Tambah Mata Pelajaran Baharu</h3>
+        <button class="btn-close-modal" onclick="closeSubjectModal()">&times;</button>
+      </div>
+      
+      <form id="subjectModalForm" onsubmit="handleSaveSubjectModal(event)">
+        <input type="hidden" id="subModalMode" value="add">
+        <input type="hidden" id="subModalOldCode" value="">
+
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" for="subModalName">Nama Penuh Mata Pelajaran:</label>
+          <input type="text" id="subModalName" class="form-control" placeholder="Contoh: KESUSASTERAAN MELAYU KOMUNIKATIF" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" for="subModalCode">Kod Singkatan:</label>
+            <input type="text" id="subModalCode" class="form-control" placeholder="Contoh: KMK" style="text-transform: uppercase;" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="subModalDept">Bidang Matapelajaran:</label>
+            <select id="subModalDept" class="form-control" required>
+              <option value="SAINS_MATEMATIK">🔬 Sains & Matematik</option>
+              <option value="KEMANUSIAAN">🌍 Kemanusiaan</option>
+              <option value="TVET">⚙️ TVET</option>
+              <option value="BAHASA">📖 Bahasa</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="subModalHours">Jam Kredit Piawai:</label>
+            <select id="subModalHours" class="form-control" onchange="updateSubModalComboSuggestions(this.value)">
+              <option value="1">1 Waktu Seminggu</option>
+              <option value="2">2 Waktu Seminggu</option>
+              <option value="3">3 Waktu Seminggu</option>
+              <option value="4" selected>4 Waktu Seminggu</option>
+              <option value="5">5 Waktu Seminggu</option>
+              <option value="6">6 Waktu Seminggu</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="subModalCombo">Cadangan Kombinasi Masa:</label>
+            <input type="text" id="subModalCombo" class="form-control" placeholder="Contoh: 2+2 atau 3+2" value="2+2" required>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label">Tingkatan Sasaran:</label>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 8px;">
+            <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" name="subModalLevels" value="1" checked> T1
+            </label>
+            <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" name="subModalLevels" value="2" checked> T2
+            </label>
+            <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" name="subModalLevels" value="3" checked> T3
+            </label>
+            <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" name="subModalLevels" value="4" checked> T4
+            </label>
+            <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+              <input type="checkbox" name="subModalLevels" value="5" checked> T5
+            </label>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" id="btnSaveSubjectModal" class="btn-submit-main" style="flex: 1; padding: 11px;">
+            💾 Simpan Subjek
+          </button>
+          <button type="button" class="btn-action-slip" style="background: #475569; border-color: #64748b; padding: 11px 18px;" onclick="closeSubjectModal()">
+            Batal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: TAMBAH GURU BAHARU                  -->
+  <!-- ========================================== -->
+  <div id="teacherModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>➕ Tambah Guru Baharu SMK Tenghilan</h3>
+        <button class="btn-close-modal" onclick="closeTeacherModal()">&times;</button>
+      </div>
+
+      <form id="teacherModalForm" onsubmit="handleSaveTeacherModal(event)">
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" for="newTeacherName">Nama Penuh Guru:</label>
+          <input type="text" id="newTeacherName" class="form-control" placeholder="Contoh: MOHD AMIRUL BIN ABDULLAH" style="text-transform: uppercase;" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+          <div class="form-group">
+            <label class="form-label" for="newTeacherIdPreview">Kod ID Guru (Auto):</label>
+            <input type="text" id="newTeacherIdPreview" class="form-control" readonly style="opacity: 0.85; background: rgba(0,0,0,0.3); font-weight: bold; color: #facc15;">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newTeacherRole">Peranan / Jawatan:</label>
+            <select id="newTeacherRole" class="form-control">
+              <option value="Guru Akademik Biasa">Guru Akademik Biasa</option>
+              <option value="Guru Kanan Matapelajaran">Guru Kanan Matapelajaran</option>
+              <option value="Penolong Kanan">Penolong Kanan</option>
+              <option value="Guru Praktikum / Ganti">Guru Praktikum / Ganti</option>
+              <option value="Guru Kontrak / COS">Guru Kontrak / COS</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" class="btn-submit-main" style="flex: 1; padding: 11px;">
+            💾 Simpan Guru Baru
+          </button>
+          <button type="button" class="btn-action-slip" style="background: #475569; border-color: #64748b; padding: 11px 18px;" onclick="closeTeacherModal()">
+            Batal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: KUNCI KHAS GKMP / OVERRIDE          -->
+  <!-- ========================================== -->
+  <div id="overrideModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🔐 Kebenaran Khas GKMP / Penyelaras</h3>
+        <button class="btn-close-modal" onclick="closeOverrideModal()">&times;</button>
+      </div>
+      <p style="font-size: 0.82rem; color: #cbd5e1; margin-bottom: 14px;">
+        Subjek <strong id="overrideSubjekName" style="color: #facc15;">-</strong> bagi kelas <strong id="overrideKelasName" style="color: #facc15;">-</strong> telah didaftarkan. Pengubahsuaian memerlukan kod kelulusan rasmi dari GKMP atau Penyelaras Jadual Waktu.
+      </p>
+      <div class="form-group" style="margin-bottom: 12px;">
+        <label class="form-label">Kod Kelulusan GKMP / PIN:</label>
+        <input type="password" id="overridePinInput" class="form-control" placeholder="Masukkan Kod PIN Rasmi">
+      </div>
+      <div class="form-group" style="margin-bottom: 16px;">
+        <label class="form-label">Catatan Justifikasi / Minit Rayuan:</label>
+        <textarea id="overrideReasonInput" class="form-control" rows="3" placeholder="Contoh: Diluluskan oleh GKMP Sains untuk penyelarasan panitia..."></textarea>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-action-slip" style="background: #16a34a; border-color: #22c55e; flex: 1;" onclick="confirmOverride()">
+          Luluskan & Daftarkan
+        </button>
+        <button class="btn-action-slip" style="background: #475569; border-color: #64748b;" onclick="closeOverrideModal()">
+          Batal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: PANDUAN PASANG APLIKASI PWA         -->
+  <!-- ========================================== -->
+  <div id="pwaGuideModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📱 Cara Memasang e-Agihan ke Telefon</h3>
+        <button class="btn-close-modal" onclick="closeModal('pwaGuideModal')">&times;</button>
+      </div>
+      <div style="font-size: 0.85rem; color: #e2e8f0; line-height: 1.6;">
+        <p><strong style="color: #facc15;">Untuk Pengguna Android (Google Chrome):</strong></p>
+        <ol style="margin-left: 20px; margin-bottom: 14px;">
+          <li>Tekan ikon <strong>3 titik (⋮)</strong> di penjuru atas kanan skrin.</li>
+          <li>Pilih <strong>"Install app"</strong> atau <strong>"Add to Home screen"</strong>.</li>
+          <li>Ikon e-Agihan SMKTego akan muncul di skrin telefon anda!</li>
+        </ol>
+
+        <p><strong style="color: #facc15;">Untuk Pengguna iPhone / iPad (Apple Safari):</strong></p>
+        <ol style="margin-left: 20px; margin-bottom: 14px;">
+          <li>Buka pautan ini dalam <strong>Safari</strong>.</li>
+          <li>Tekan butang <strong>Kongsi (Share ⎋)</strong> di bar bawah telefon.</li>
+          <li>Tatal ke bawah dan pilih <strong>"Add to Home Screen" (+)</strong>.</li>
+          <li>Tekan <strong>"Add"</strong>. Aplikasi kini sedia digunakan seperti app biasa!</li>
+        </ol>
+      </div>
+      <button class="btn-submit-main" style="padding: 10px; margin-top: 10px;" onclick="closeModal('pwaGuideModal')">
+        Faham & Tutup
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="toast">Pendaftaran berjaya disimpan!</div>
+
+  <!-- Scripts -->
+  <!-- Pustaka PDF & QR Offline -->
+  <script src="js/jspdf.umd.min.js"></script>
+  <script src="js/jspdf.plugin.autotable.min.js"></script>
+  <script src="js/qrcode.min.js"></script>
+  
+  <!-- Logo Base64 string -->
+  <script src="js/logo-base64.js"></script>
+
+  <!-- Konfigurasi Persekitaran / Environment Config -->
+  <script src="js/config.js"></script>
+
+  <!-- Data, Logik & Pengawal Sistem -->
+  <script src="js/data.js"></script>
+  <script src="js/sync.js"></script>
+  <script src="js/pdf-generator.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Jana Kod QR untuk pelayan setempat
+    window.addEventListener('load', () => {
+      const qrBox = document.getElementById("qrCodeContainer");
+      const urlText = document.getElementById("serverUrlText");
+      if (qrBox && typeof QRCode !== "undefined") {
+        const currentUrl = window.location.href;
+        new QRCode(qrBox, {
+          text: currentUrl,
+          width: 160,
+          height: 160,
+          colorDark: "#071329",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        if (urlText) urlText.textContent = currentUrl;
+      }
+    });
+  </script>
+
+</body>
+</html>

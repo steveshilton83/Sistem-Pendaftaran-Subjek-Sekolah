@@ -1,0 +1,49 @@
+# ==============================================================================
+# .gitignore - e-Agihan SMKTego
+# ==============================================================================
+
+# 1. Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# 2. Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# 3. Production build output folders
+dist/
+build/
+out/
+.output/
+.vercel
+.netlify
+
+# 4. Local runtime database files
+data/pendaftaran.json
+!data/pendaftaran.json.example
+
+# 5. Logs & debug outputs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 6. Operating System artifacts
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# 7. IDE & editor configurations
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj

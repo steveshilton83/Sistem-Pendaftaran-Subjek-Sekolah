@@ -1,0 +1,66 @@
+{
+  "id": "e-agihan-smktego-pwa",
+  "name": "e-Agihan SMKTego 2026 | SMK Tenghilan",
+  "short_name": "e-Agihan",
+  "description": "Sistem Pendaftaran & Pengutipan Agihan Subjek PdP Guru SMK Tenghilan (Pra-Jadual Waktu)",
+  "lang": "ms-MY",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "background_color": "#061124",
+  "theme_color": "#0d285b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Daftar Subjek",
+      "short_name": "Daftar",
+      "description": "Buka borang pendaftaran agihan subjek guru",
+      "url": "./index.html#register",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Pendaftaran Saya",
+      "short_name": "Rekod",
+      "description": "Lihat senarai subjek yang telah saya daftarkan",
+      "url": "./index.html#my-subjects",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Papan Pemuka Penyelaras",
+      "short_name": "Dashboard",
+      "description": "Papan pemuka semakan dan matrik kelas",
+      "url": "./index.html#dashboard",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "e-agihan-smktego",
+  "version": "1.1.0",
+  "description": "Sistem Pendaftaran & Pengutipan Agihan Subjek PdP Guru SMK Tenghilan (Pra-Jadual Waktu)",
+  "homepage": "https://smktego.edu.my",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "node scripts/serve.js",
+    "lint": "node scripts/lint.js",
+    "check": "node scripts/build.js --check-only",
+    "preview": "node scripts/serve.js --dist"
+  },
+  "keywords": [
+    "smk-tenghilan",
+    "jadual-waktu",
+    "e-agihan",
+    "pwa",
+    "kssm",
+    "education"
+  ],
+  "author": "Steve Shilton Ating <Guru Penyelaras Jadual Waktu SMKTego>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

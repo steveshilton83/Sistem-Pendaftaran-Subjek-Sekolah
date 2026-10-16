@@ -1,0 +1,82 @@
+/**
+ * PRINT STYLESHEET (e-Agihan SMKTego)
+ * Format kemas untuk cetakan A4 Portrait & Landscape dengan kepala surat rasmi
+ */
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    font-size: 9pt;
+  }
+
+  .nav-tab-bar,
+  .btn-install-pwa,
+  .pwa-sticky-banner,
+  .btn-submit-main,
+  .action-buttons-group,
+  .btn-row-action-delete,
+  .toast,
+  .modal-overlay,
+  .settings-section,
+  .no-print {
+    display: none !important;
+  }
+
+  .glass-panel {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .app-header {
+    border: none !important;
+    border-bottom: 2px solid #000 !important;
+    margin-bottom: 15px !important;
+    padding: 0 0 10px 0 !important;
+    flex-direction: row !important;
+    text-align: left !important;
+  }
+
+  .school-logo-img {
+    width: 60px !important;
+    height: 75px !important;
+    filter: none !important;
+  }
+
+  .header-text h1 {
+    color: #000000 !important;
+    font-size: 14pt !important;
+  }
+
+  .header-text .school-title {
+    color: #333333 !important;
+    font-size: 10pt !important;
+  }
+
+  .data-table, .matrix-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  .data-table th, .matrix-table th {
+    background-color: #f2f2f2 !important;
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+    font-size: 8pt !important;
+  }
+
+  .data-table td, .matrix-table td {
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+    font-size: 8pt !important;
+    padding: 4px 6px !important;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 1cm;
+  }
+}
